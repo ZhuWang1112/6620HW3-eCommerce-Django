@@ -5,6 +5,7 @@
     <title>Home Page</title>
     <style>
         ul {
+            
             list-style: none;
             display: flex;
             flex-wrap: wrap;
@@ -12,9 +13,13 @@
         }
 
         li {
+            float: left;
             border: 1px solid #ccc;
             padding: 20px;
             width: 300px;
+        }
+        li.welcome {
+            float: right;
         }
 
         h2 {
@@ -37,7 +42,9 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
+        .wd-float {
+            float: right;
+        }
         button:hover {
             background-color: #555;
         }
@@ -55,11 +62,12 @@
   <ul>
     <li><a href="{% url 'home' %}">Home</a></li>
     {% if request.session.user %}
-      <li>
+        <li><a href="{% url 'log_out' %}">Log out</a></li>
+        <li></li>
+        <li class="welcome">
           <h>Welcome, {{ request.session.user.username }}!</h>
           <a href="{% url 'cart' %}">My Cart</a>
       </li>
-        <li><a href="{% url 'log_out' %}">Log out</a></li>
     {% else %}
       <li><a href="{% url 'login' %}">Login</a></li>
     {% endif %}
