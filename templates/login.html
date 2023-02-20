@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+</head>
+<body>
+<h1>Login Page</h1>
+{% if error %}
+    <p><strong>{{ error }}</strong></p>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username"><br><br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password"><br><br>
+    <input type="submit" value="Login">
+</form>
+<br>
+<br>
+<br>
+<form method="get" action="{% url 'register' %}">
+    {% csrf_token %}
+    <input type="submit" value="Register">
+</form>
+<br>
+<br>
+<br>
+<form method="post" action="{% url 'guest' %}">
+    {% csrf_token %}
+    <input type="submit" value="Guest">
+</form>
+</body>
+</html>

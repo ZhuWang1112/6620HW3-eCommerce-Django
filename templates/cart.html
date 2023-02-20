@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .login-box {
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #ddd;
+            width: 300px;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+        input[type="text"], input[type="password"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .product-image {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-right: 10px;
+        }
+
+        .product-info {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+
+        .product-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .price {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+        }
+
+        .quantity {
+            display: inline-block;
+            width: 40px;
+            text-align: center;
+            margin: 0 10px;
+        }
+
+        .total-price {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .delete-form {
+            display: inline-block;
+        }
+
+        .checkout-btn {
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<h1>My Cart</h1>
+{% if cart_items %}
+    <ul>
+        {% for cart_item in cart_items %}
+            <li>
+                <img class="product-image" src="{{ cart_item.product.image_url }}" alt="{{ cart_item.product.name }}">
+                <span><b>{{ cart_item.product.name }}</b></span>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;Price: ${{ cart_item.product.price }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <form method="POST" action="{% url 'add_to_cart' cart_item.product.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="add">
+                    <button type="submit">+</button>
+                </form>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;{{ cart_item.quantity }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <form method="POST" action="{% url 'add_to_cart' cart_item.product.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="remove">
+                    <button type="submit">-</button>
+                </form>
+                <span class="total-price: $">&nbsp;&nbsp;&nbsp;total_price ${{ cart_item.total_price }}&nbsp;&nbsp;&nbsp;</span>
+                <form method="POST" action="{% url 'add_to_cart' cart_item.product.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="cart-total">
+        <span>Total:</span>
+        <span class="total-price">{{ cart_total }}</span>
+    </div>
+    <button class="checkout-btn" onclick="">Checkout</button>
+{% else %}
+    <p>Your cart is empty.</p>
+{% endif %}
+<a href="{% url 'home' %}">Continue shopping</a>
+
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li><b>{{ message }}</b></li>
+        {% endfor %}
+    </ul>
+{% endif %}
+</body>
+</html>
+
+{#location.href='{% url 'checkout' %}'#}

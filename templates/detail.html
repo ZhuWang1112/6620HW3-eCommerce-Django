@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        nav li {
+            border: 1px solid #ccc;
+            padding: 20px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+{#{% if request.session.user %}#}
+{#    <h>Welcome, {{ request.session.user.username }}!</h>#}
+{#    <a href="{% url 'cart' %}">My Cart</a>#}
+{#    <a href="{% url 'log_out' %}">Log out</a>#}
+{#{% else %}#}
+{#    <h>Please <a href="{% url 'login' %}">log in</a>.</h>#}
+{#{% endif %}#}
+<nav>
+  <ul>
+    <li><a href="{% url 'home' %}">Home</a></li>
+    {% if request.session.user %}
+      <li>
+          <h>Welcome, {{ request.session.user.username }}!</h>
+          <a href="{% url 'cart' %}">My Cart</a>
+      </li>
+        <li><a href="{% url 'log_out' %}">Log out</a></li>
+    {% else %}
+      <li><a href="{% url 'login' %}">Login</a></li>
+    {% endif %}
+  </ul>
+</nav>
+
+<h1>product details</h1>
+<img src="{{ product.image_url }}" alt="{{ product.name }}">
+<h2>{{ product.name }}</h2>
+<p>{{ product.description }}</p>
+<p>Stock : {{ product.stock }}</p>
+<p>${{ product.price }}</p>
+<form method="POST" action="{% url 'add_to_cart' product.id %}">
+    {% csrf_token %}
+    <button type="submit">Add to cart</button>
+</form>
+<h2>Comments</h2>
+<ul>
+    {% for comment in comments %}
+    <li>
+        <span>{{ comment.user.username }}</span>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ comment.comment_time }}</span>
+        <p>content：{{ comment.content }}</p>
+    </li>
+    {% endfor %}
+</ul>
+<h2>Add comment</h2>
+<form method="post" action="{% url 'add_comment' product.id %}">
+    {% csrf_token %}
+    <textarea name="content" required placeholder="Please comment here"></textarea>
+    <input type="submit" value="submit">
+</form>
+
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+</body>
+</html>
