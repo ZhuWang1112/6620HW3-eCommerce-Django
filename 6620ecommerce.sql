@@ -13,7 +13,10 @@ File Encoding         : 65001
 Date: 2023-02-19 22:23:56
 */
 
-SET FOREIGN_KEY_CHECKS=0;
+-- SET FOREIGN_KEY_CHECKS=0;  mysql 5.7
+
+-- for mysql 8.0, use this
+SET GLOBAL FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
 -- Table structure for auth_group
