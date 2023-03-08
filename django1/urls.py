@@ -22,15 +22,16 @@ from userApp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home', views.home_view, name='home'),
+    path('home', views.HomeView.as_view(), name='home'),
     path('', views.login_view, name='login'),
     path('login', views.login_view, name='login'),
+    path('checklogin',views.checkLogin_view, name='checkLogin'),
     path('register', views.register_view, name='register'),
-    path('guest', views.guest, name='guest'),
-    path('add_to_cart/<int:product_id>', views.add_to_cart, name='add_to_cart'),
+    # path('guest', views.guest, name='guest'),
+    path('cart/modify', views.ModifyProduct.as_view(), name='add_to_cart'),
     path('cart', views.cart, name='cart'),
-    path('detail/<int:product_id>', views.detail, name='detail'),
-    path('add_comment/<int:product_id>', views.add_comment, name='add_comment'),
+    path('detail', views.detail, name='detail'),
+    path('addComment', views.add_comment, name='add_comment'),
     path('log_out', views.log_out, name='log_out'),
 ]
 

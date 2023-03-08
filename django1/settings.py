@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -41,18 +40,57 @@ INSTALLED_APPS = [
     'orderApp',
     'userApp',
     'cartApp',
-    'commentApp'
+    'commentApp',
+    'rest_framework',
+    'corsheaders',
 ]
+
+
+REST_FRAMEWORK = {
+    # Allow anyone to access the API
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    # Enable session and basic authentication
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+    # API returns data as JSON format
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+SESSION_COOKIE_SAMESITE = 'None'
+CORS_ALLOW_CREDENTIALS = True
+# CORS_ORIGIN_ALLOW_ALL = True    # 允许任意站点跨域请求
+# CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+
+CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
+
+CORS_ALLOW_METHODS = ['DELETE',    'GET',    'OPTIONS',    'PATCH',    'POST',    'PUT']
+
+
+
+#
+# CORS_ALLOW_ORIGINS = [
+#     'http://localhost:3000',
+# ]
+
 
 ROOT_URLCONF = 'django1.urls'
 
@@ -75,7 +113,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django1.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -91,9 +128,9 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
+SESSION_COOKIE_AGE = 60 * 60 * 24 # 1 day in seconds
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -110,7 +147,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -122,19 +158,18 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'static'),
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
