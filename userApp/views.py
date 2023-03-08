@@ -155,12 +155,15 @@ def detail(request):
 
     return Response(data, status=status.HTTP_200_OK)
 
+
 @api_view(['POST'])
-def add_comment(request, product_id):
+def add_comment(request):
     if 'user' not in request.session:
         return Response({'success': False, 'error': "Please log in !!"}, status=status.HTTP_401_UNAUTHORIZED)
 
-    newComment = request.POST['content']
+    newComment = request.data.get('comment')
+    print(newComment)
+    product_id = request.data.get('productId')
     Comment.objects.create(user_id=request.session['user']['id'], content=newComment, product_id=product_id)
 
     return Response({'success': True, 'message': "Comment posted successfully"}, status=status.HTTP_200_OK)
@@ -197,3 +200,12 @@ def checkLogin_view(request):
                         status=status.HTTP_200_OK)
     return Response({'success': False, 'message': 'Sorry, You need login first!!!'},
                     status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['POST'])
+def delete_comment(request):
+    comment_id = request.data.get('commentId')
+    print(comment_id)
+    Comment.objects.filter(id=comment_id).delete()
+    return Response({'success': True, 'message': 'Comment has been deleted!!'},
+                    status=status.HTTP_200_OK)
