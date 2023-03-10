@@ -2,10 +2,10 @@
 
 1. Change the DATABASES in settings.py
 
-2. Install mysqlclient
+2. Install dependency
 
 ```
-pip install mysqlclient
+pip install -r requirements.txt
 ```
 
 3. Create a database **6620eCommerce** (using sql files)
