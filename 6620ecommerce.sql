@@ -377,9 +377,9 @@ CREATE TABLE `productapp_product` (
 -- ----------------------------
 -- Records of productapp_product
 -- ----------------------------
-INSERT INTO `productapp_product` VALUES ('1', 'Coke', '10.99', '10', '../static/coke.png', 'good product1');
-INSERT INTO `productapp_product` VALUES ('2', 'Sprite', '20.99', '10', '../static/sprite.png', 'hello, it is product2');
-INSERT INTO `productapp_product` VALUES ('3', 'Fanta', '30.99', '10', '../static/fanta.png', 'unbelievably great product');
+INSERT INTO `productapp_product` VALUES ('1', 'Coke', '10.99', '10', '/static/coke.png', 'good product1');
+INSERT INTO `productapp_product` VALUES ('2', 'Sprite', '20.99', '10', '/static/sprite.png', 'hello, it is product2');
+INSERT INTO `productapp_product` VALUES ('3', 'Fanta', '30.99', '10', '/static/fanta.png', 'unbelievably great product');
 
 -- ----------------------------
 -- Table structure for userapp_userprofile
